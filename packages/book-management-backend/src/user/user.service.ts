@@ -24,4 +24,19 @@ export class UserService {
 
     return user
   }
+
+  async login(loginUserDto: RegistUserDto) {
+    const users: User[] = await this.dbService.read()
+
+    const user = users.find(
+      user =>
+        user.username === loginUserDto.username &&
+        user.password === loginUserDto.password,
+    )
+    if (!user) {
+      throw new BadRequestException('用户名或密码错误')
+    }
+
+    return user
+  }
 }
