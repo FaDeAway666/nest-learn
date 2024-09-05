@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common'
 import { DBModuleOptions } from './db.module'
 import { access, readFile, writeFile } from 'fs/promises'
-import { User } from 'src/user/entity/user.entity'
 
 @Injectable()
 export class DBService {
@@ -23,7 +22,7 @@ export class DBService {
       return []
     }
 
-    return JSON.parse(str) as User[]
+    return JSON.parse(str)
   }
 
   async write(data: Record<string, any>) {
