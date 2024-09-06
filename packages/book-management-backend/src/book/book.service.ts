@@ -49,6 +49,7 @@ export class BookService {
   }
 
   async update(id: string, updateBookDto: UpdateBookDto) {
+    console.log('update', id, updateBookDto)
     const books: Book[] = await this.dbService.read()
 
     const book = books.find(book => book.id === id)
@@ -57,10 +58,10 @@ export class BookService {
       throw new BadRequestException('Book not found')
     }
 
-    book.bookName = updateBookDto.bookName
-    book.author = updateBookDto.author
-    book.description = updateBookDto.description
-    book.coverImage = updateBookDto.coverImg
+    book.bookName = updateBookDto.bookName || book.bookName
+    book.author = updateBookDto.author || book.author
+    book.description = updateBookDto.description || book.description
+    book.coverImage = updateBookDto.coverImg || book.coverImage
 
     await this.dbService.write(books)
 
@@ -79,5 +80,7 @@ export class BookService {
     books.splice(index, 1)
 
     await this.dbService.write(books)
+
+    return { message: 'Book deleted' }
   }
 }
